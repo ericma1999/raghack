@@ -59,6 +59,7 @@ class AISearchRagClient(RagClient):
         return "| ".join(["" if result[key] is None else result[key] for key in keys])
 
     def format_retrieval_content(self, results):
+        """Format the content in markdown separated by bar"""
 
         keys = None
         output = ""
@@ -79,5 +80,10 @@ class AISearchRagClient(RagClient):
     def get_rag(self, user_input):
         results = search_client.search(search_text=user_input)
 
-
         return self.format_retrieval_content(results)
+
+
+class VectorAISearchRagClient(RagClient):
+
+    def get_rag(self, user_input):
+        return "something"
