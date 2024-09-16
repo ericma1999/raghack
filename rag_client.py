@@ -86,4 +86,12 @@ class AISearchRagClient(RagClient):
 class VectorAISearchRagClient(RagClient):
 
     def get_rag(self, user_input):
+        vector_query = generate_vector_query(user_input)
+        results = search_client.search(
+            search_text=user_input,
+            vector_queries=[vector_query],
+            top=3,
+            select=["property_title", "url", "description"],
+        )
+
         return "something"

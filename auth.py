@@ -5,6 +5,7 @@ import azure.identity
 import openai
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
+from azure.search.documents.models import VectorizedQuery
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -45,7 +46,9 @@ else:
     MODEL_NAME = os.getenv("OPENAI_MODEL")
 
 
-model_chat = partial(model_client.chat.completions.create, model=MODEL_NAME, temperature=0.3)
+model_chat = partial(
+    model_client.chat.completions.create, model=MODEL_NAME, temperature=0.3
+)
 
 
 # SearchClient
@@ -56,3 +59,23 @@ index_name = os.environ["AZURE_SEARCH_INDEX_NAME"]
 key = os.environ["AZURE_SEARCH_API_KEY"]
 
 search_client = SearchClient(service_endpoint, index_name, AzureKeyCredential(key))
+
+
+# VectorSearch
+### Model is the azure openai deployment name
+
+def generate_embedding(text, model):
+
+    embeddings = model_client.embeddings.create(model=model, input=text)
+
+    return embeddings.data[0].embedding
+
+
+def generate_vector_query(query, model):
+
+    vector_query = VectorizedQuery(
+        vector=generate_embedding(query, model),
+        k_nearest_neighbors=5,
+        fields="content_vector",
+    )
+    return vector_query
