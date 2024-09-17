@@ -71,11 +71,11 @@ def generate_embedding(text, model):
     return embeddings.data[0].embedding
 
 
-def generate_vector_query(query, model):
-
-    vector_query = VectorizedQuery(
-        vector=generate_embedding(query, model),
-        k_nearest_neighbors=5,
-        fields="content_vector",
-    )
-    return vector_query
+# def generate_vector_query(query, model):
+#
+#     vector_query = VectorizedQuery(
+#         vector=generate_embedding(query, model),
+#         k_nearest_neighbors=5,
+#         fields="content_vector",
+#     )
+#     return vector_query
