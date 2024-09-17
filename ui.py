@@ -40,21 +40,21 @@ with col1:
     for message in st.session_state["chat_history"]:
         container.write(message)
 
-    st.text_input("Enter your message:", key="user_input",
-                  on_change=send_message)
+    st.text_input("Enter your message:", key="user_input", on_change=send_message)
 
     if st.button("Clear Chat History"):
         st.session_state["chat_history"] = []
         st.rerun()  # Refresh the app to show cleared chat
 
 with col2:
-    option = st.selectbox(
-        "RAG options", ("Basic", "AI Search", "AI Vector Search"))
+    option = st.selectbox("RAG options", ("Basic", "AI Search", 
+                                          # "AI Vector Search"
+                                          ))
 
     content = {
         "Basic": "Basic option loads the csv file and insert the content into the context of the user input.",
         "AI Search": "Uses the Azure AI Search on the content that is stored in the blob storage of the Azure service. This does not perform the embeddings.",
-        "AI Vector Search": "Uses the Azure AI Search and the embedder from the Azure Open AI service, that performs the vector embeddings of the properties information content.",
+        # "AI Vector Search": "Uses the Azure AI Search and the embedder from the Azure Open AI service, that performs the vector embeddings of the properties information content.",
     }
 
     st.write(content[option])
